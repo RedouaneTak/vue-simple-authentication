@@ -1,11 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  import BaseInput from './components/commons/BaseInput.vue';
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+ <BaseInput label="Firstname" type="text" id="firstname-input"/>
 </template>
 
 <style scoped></style>

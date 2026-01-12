@@ -1,14 +1,9 @@
 <script setup lang="ts">
-  import BaseInput from './components/commons/BaseInput.vue';
-  import BaseButton from './components/commons/BaseButton.vue';
+import LoginPage from './pages/LoginPage.vue';
 </script>
 
 <template>
-  <form>
-    <BaseInput label="Firstname" type="text" id="firstname-input"/>
-    <BaseButton type="submit">Press button</BaseButton>
-  </form>
-
+  <LoginPage />
 </template>
 
 <style scoped></style>

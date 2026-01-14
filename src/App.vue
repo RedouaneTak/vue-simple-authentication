@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import LoginPage from './pages/LoginPage.vue';
+import BaseHeader from './components/commons/BaseHeader.vue';
 </script>
 
 <template>
-  <LoginPage />
+  <BaseHeader />
+  <RouterView />
 </template>
 
 <style scoped></style>

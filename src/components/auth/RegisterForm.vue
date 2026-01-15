@@ -1,5 +1,6 @@
 <script setup lang="ts">
-
+import BaseButton from '../commons/BaseButton.vue'
+import BaseInput from '../commons/BaseInput.vue'
 import { ref } from 'vue'
 
 interface RegisterRequest{

@@ -2,13 +2,7 @@
 import BaseButton from '../commons/BaseButton.vue'
 import BaseInput from '../commons/BaseInput.vue'
 import { ref } from 'vue'
-
-
-interface LoginRequest{
-  email: string,
-  password: string
-
-}
+import type { LoginRequest } from '@/models/auth.model'
 
 const loginForm = ref<LoginRequest>({
   email: '',

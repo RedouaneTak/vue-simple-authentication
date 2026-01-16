@@ -2,13 +2,8 @@
 import BaseButton from '../commons/BaseButton.vue'
 import BaseInput from '../commons/BaseInput.vue'
 import { ref } from 'vue'
+import type { RegisterRequest } from '@/models/auth.model'
 
-interface RegisterRequest{
-  firstname: string,
-  lastname: string,
-  email: string,
-  password: string
-}
 
 const registerForm = ref<RegisterRequest>({
   firstname:'',

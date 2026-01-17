@@ -3,6 +3,9 @@ import BaseButton from '../commons/BaseButton.vue'
 import BaseInput from '../commons/BaseInput.vue'
 import { ref } from 'vue'
 import type { RegisterRequest } from '@/models/auth.model'
+import { useAuth } from '@/stores/auth.store'
+
+const store = useAuth()
 
 
 const registerForm = ref<RegisterRequest>({
@@ -13,7 +16,11 @@ const registerForm = ref<RegisterRequest>({
 })
 
 const register = async()=>{
-  console.log(registerForm.value)
+  try{
+    await store.registerUser(registerForm.value)
+  }catch(err){
+    console.error(err)
+  }
 }
 
 </script>

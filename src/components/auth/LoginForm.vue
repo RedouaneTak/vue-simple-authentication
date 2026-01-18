@@ -3,14 +3,21 @@ import BaseButton from '../commons/BaseButton.vue'
 import BaseInput from '../commons/BaseInput.vue'
 import { ref } from 'vue'
 import type { LoginRequest } from '@/models/auth.model'
+import { useAuth } from '@/stores/auth.store'
+
+const store = useAuth()
 
 const loginForm = ref<LoginRequest>({
   email: '',
-  password: ''
+  password: '',
 })
 
-const login = ()=>{
-
+const login = async () => {
+  try {
+    await store.authentication(loginForm.value)
+  } catch (err) {
+    console.error(err)
+  }
 }
 </script>
 
@@ -24,7 +31,7 @@ const login = ()=>{
 </template>
 
 <style scoped>
-  h1 {
+h1 {
   text-align: center;
   margin-bottom: 1.5rem;
   font-size: 1.8rem;

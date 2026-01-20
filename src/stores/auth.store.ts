@@ -23,6 +23,11 @@ export const useAuth = defineStore('auth', () => {
 
       localStorage.setItem('access_token', data.data.access_token)
       localStorage.setItem('refresh_token', data.data.refresh_token)
+
+      user.value = await getUserInfo()
+
+      console.log(user.value)
+
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
         console.error(err.response?.data ?? err.message)
@@ -44,7 +49,6 @@ export const useAuth = defineStore('auth', () => {
       localStorage.setItem('refresh_token', data.data.refresh_token)
 
       user.value = await getUserInfo()
-
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
         console.error(err.response?.data ?? err.message)

@@ -12,6 +12,6 @@ export const register = async (userData: RegisterRequest) => {
 }
 
 export const getUserInfo = async () => {
-  const response = await api.post('auth/le')
+  const response = await api.post('auth/me')
   return response.data
 }

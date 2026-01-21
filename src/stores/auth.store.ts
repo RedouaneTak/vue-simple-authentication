@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import type { LoginRequest, RegisterRequest, User } from '@/models/auth.model'
 import { register, authenticate, getUserInfo } from '@/api/auth.api'
 import axios from 'axios'
@@ -15,6 +15,8 @@ export const useAuth = defineStore('auth', () => {
   const accessToken = ref<string>('')
   const refreshToken = ref<string>('')
 
+  const isAuthenticated = computed(() => !!accessToken.value)
+
   const registerUser = async (userData: RegisterRequest) => {
     try {
       const data = await register(userData)
@@ -25,9 +27,6 @@ export const useAuth = defineStore('auth', () => {
       localStorage.setItem('refresh_token', data.data.refresh_token)
 
       user.value = await getUserInfo()
-
-      console.log(user.value)
-
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
         console.error(err.response?.data ?? err.message)
@@ -61,6 +60,7 @@ export const useAuth = defineStore('auth', () => {
 
   return {
     user,
+    isAuthenticated,
     registerUser,
     authentication,
   }

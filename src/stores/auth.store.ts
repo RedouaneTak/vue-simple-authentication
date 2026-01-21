@@ -40,12 +40,12 @@ export const useAuth = defineStore('auth', () => {
   const authentication = async (credentials: LoginRequest) => {
     try {
       const data = await authenticate(credentials)
+      console.log(data.access_token)
+      accessToken.value = data.access_token
+      refreshToken.value = data.refresh_token
 
-      accessToken.value = data.data.access_token
-      refreshToken.value = data.data.refresh_token
-
-      localStorage.setItem('access_token', data.data.access_token)
-      localStorage.setItem('refresh_token', data.data.refresh_token)
+      localStorage.setItem('access_token', data.access_token)
+      localStorage.setItem('refresh_token', data.refresh_token)
 
       user.value = await getUserInfo()
     } catch (err: unknown) {
@@ -58,10 +58,20 @@ export const useAuth = defineStore('auth', () => {
     }
   }
 
+  const logout = () => {
+    accessToken.value = ''
+    refreshToken.value = ''
+    user.value = null
+
+    localStorage.removeItem('access_token')
+    localStorage.removeItem('refresh_token')
+  }
+
   return {
     user,
     isAuthenticated,
     registerUser,
     authentication,
+    logout,
   }
 })

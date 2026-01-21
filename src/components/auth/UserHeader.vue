@@ -5,8 +5,8 @@ import { useRouter } from 'vue-router'
 const store = useAuth()
 const router = useRouter()
 const handleLogout = () => {
-  //store.logout()
-  router.push('/')
+  store.logout()
+  router.push('/home')
 }
 </script>
 

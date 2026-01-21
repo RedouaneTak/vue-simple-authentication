@@ -4,25 +4,26 @@ import BaseInput from '../commons/BaseInput.vue'
 import { ref } from 'vue'
 import type { RegisterRequest } from '@/models/auth.model'
 import { useAuth } from '@/stores/auth.store'
+import { useRouter } from 'vue-router'
 
 const store = useAuth()
-
+const router = useRouter()
 
 const registerForm = ref<RegisterRequest>({
-  firstname:'',
-  lastname:'',
-  email:'',
-  password:''
+  firstname: '',
+  lastname: '',
+  email: '',
+  password: '',
 })
 
-const register = async()=>{
-  try{
+const register = async () => {
+  try {
     await store.registerUser(registerForm.value)
-  }catch(err){
+    router.push('/home')
+  } catch (err) {
     console.error(err)
   }
 }
-
 </script>
 
 <template>
@@ -43,7 +44,6 @@ const register = async()=>{
       v-model="registerForm.password"
     />
     <BaseButton type="submit">Sign up</BaseButton>
-
   </form>
 </template>
 

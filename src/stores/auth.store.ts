@@ -19,12 +19,12 @@ export const useAuth = defineStore('auth', () => {
 
   const registerUser = async (userData: RegisterRequest) => {
     try {
-      const data = await register(userData)
-      accessToken.value = data.data.access_token
-      refreshToken.value = data.data.refresh_token
+      const response = await register(userData)
+      accessToken.value = response.data.access_token
+      refreshToken.value = response.data.refresh_token
 
-      localStorage.setItem('access_token', data.data.access_token)
-      localStorage.setItem('refresh_token', data.data.refresh_token)
+      localStorage.setItem('access_token', response.data.access_token)
+      localStorage.setItem('refresh_token', response.data.refresh_token)
 
       user.value = await getUserInfo()
     } catch (err: unknown) {
@@ -39,13 +39,12 @@ export const useAuth = defineStore('auth', () => {
 
   const authentication = async (credentials: LoginRequest) => {
     try {
-      const data = await authenticate(credentials)
-      console.log(data.access_token)
-      accessToken.value = data.access_token
-      refreshToken.value = data.refresh_token
+      const response = await authenticate(credentials)
+      accessToken.value = response.data.access_token
+      refreshToken.value = response.data.refresh_token
 
-      localStorage.setItem('access_token', data.access_token)
-      localStorage.setItem('refresh_token', data.refresh_token)
+      localStorage.setItem('access_token', response.data.access_token)
+      localStorage.setItem('refresh_token', response.data.refresh_token)
 
       user.value = await getUserInfo()
     } catch (err: unknown) {

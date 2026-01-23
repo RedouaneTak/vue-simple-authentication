@@ -15,7 +15,7 @@ export const useAuth = defineStore('auth', () => {
   const accessToken = ref<string>('')
   const refreshToken = ref<string>('')
 
-  const isAuthenticated = computed(() => !!accessToken.value)
+  const isAuthenticated = computed<boolean>(() => !!accessToken.value)
 
   const registerUser = async (userData: RegisterRequest) => {
     try {
@@ -66,11 +66,24 @@ export const useAuth = defineStore('auth', () => {
     localStorage.removeItem('refresh_token')
   }
 
+  const checkAuth = async ()=>{
+
+    const token = localStorage.getItem('access_token')
+    const refresh = localStorage.getItem('refresh_token')
+
+    if(token && refresh){
+      accessToken.value = token;
+      refreshToken.value = refresh
+      user.value = await getUserInfo()
+    }
+  }
+
   return {
     user,
     isAuthenticated,
     registerUser,
     authentication,
     logout,
+    checkAuth
   }
 })

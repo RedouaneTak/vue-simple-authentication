@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import type { LoginRequest, RegisterRequest, User } from '@/models/auth.model'
-import { register, authenticate, getUserInfo } from '@/api/auth.api'
+import { register, authenticate, getUserInfo, getNewAcessToken } from '@/api/auth.api'
 import axios from 'axios'
 
 export const useAuth = defineStore('auth', () => {
@@ -78,12 +78,21 @@ export const useAuth = defineStore('auth', () => {
     }
   }
 
+  const refreshAccessToken = async ()=>{
+    if (!refreshToken.value) throw new Error('No refresh token')
+    const data = await getNewAcessToken(refreshToken.value);
+    return data;
+  }
+
   return {
     user,
     isAuthenticated,
+    accessToken,
+    refreshToken,
     registerUser,
     authentication,
     logout,
-    checkAuth
+    checkAuth,
+    refreshAccessToken
   }
 })

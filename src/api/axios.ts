@@ -20,8 +20,6 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-
-    console.log(config.url);
     if (config.url?.includes('auth/refresh-token')) {
       return config
     }

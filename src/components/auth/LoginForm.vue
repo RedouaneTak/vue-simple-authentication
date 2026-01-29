@@ -4,10 +4,11 @@ import BaseInput from '../commons/BaseInput.vue'
 import { ref } from 'vue'
 import type { LoginRequest } from '@/models/auth.model'
 import { useAuth } from '@/stores/auth.store'
-import { useRouter } from 'vue-router'
+import { useRouter,useRoute } from 'vue-router'
 
 const store = useAuth()
 const router = useRouter()
+const route = useRoute()
 
 const loginForm = ref<LoginRequest>({
   email: '',
@@ -17,7 +18,8 @@ const loginForm = ref<LoginRequest>({
 const login = async () => {
   try {
     await store.authentication(loginForm.value)
-    router.push('/home')
+    const redirectTo = typeof route.query.redirect === 'string' ? route.query.redirect : '/home'
+    router.push(redirectTo)
   } catch (err) {
     console.error(err)
   }

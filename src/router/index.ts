@@ -10,7 +10,8 @@ const routes = [
   { path: '/home', name: 'home', component: HomePage},
   { path: '/login', name: 'login', component: LoginPage, meta: { guestOnly: true } },
   { path: '/register', name: 'register', component: RegisterPage, meta: { guestOnly: true } },
-  { path: '/me', name: 'me', component: UserPage}
+  { path: '/me', name: 'me', component: UserPage, meta: {requiresAuth: true}},
+  { path: '/:pathMatch(.*)*', redirect: '/home' },
 ]
 
 const router = createRouter({
@@ -22,11 +23,17 @@ router.beforeEach((to) => {
   const store = useAuth()
   const isAuthenticated = store.isAuthenticated
 
+  if (to.meta.requiresAuth && !store.isAuthenticated) {
+    return {
+      path: '/login',
+      query: { redirect: to.fullPath },
+    }
+  }
+
   if (to.meta.guestOnly && isAuthenticated) {
     return { name: 'home' }
   }
 
-  return true
 })
 
 export default router

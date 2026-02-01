@@ -9,6 +9,9 @@ const store = useAuth()
 <template>
   <AuthLayout>
     <h1>Me page working !</h1>
-    <h2 v-if="store.user">Hey {{ store.user.firstname }}</h2>
+    <div v-if="store.user">
+      <h2>>Hey {{ store.user.firstname }}, your role is: {{ store.user.role }}</h2>
+    </div>
+
   </AuthLayout>
 </template>

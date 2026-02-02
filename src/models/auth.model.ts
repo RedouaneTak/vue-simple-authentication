@@ -16,3 +16,8 @@ export interface User{
   email: string,
   role: string,
 }
+
+
+export type RegisterErrors = {
+  [K in keyof RegisterRequest]?: string
+}

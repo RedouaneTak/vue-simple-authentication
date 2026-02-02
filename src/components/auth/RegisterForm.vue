@@ -2,12 +2,14 @@
 import BaseButton from '../commons/BaseButton.vue'
 import BaseInput from '../commons/BaseInput.vue'
 import { ref } from 'vue'
-import type { RegisterRequest } from '@/models/auth.model'
+import type { RegisterRequest,RegisterErrors } from '@/models/auth.model'
 import { useAuth } from '@/stores/auth.store'
 import { useRouter } from 'vue-router'
 
 const store = useAuth()
 const router = useRouter()
+
+const errors = ref<RegisterErrors>({})
 
 const registerForm = ref<RegisterRequest>({
   firstname: '',

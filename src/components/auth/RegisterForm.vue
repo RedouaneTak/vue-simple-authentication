@@ -32,6 +32,9 @@ const register = async () => {
   }
 }
 
+const clearError = (field: keyof RegisterErrors) => {
+  delete errors.value[field]
+}
 
 
 </script>
@@ -45,15 +48,33 @@ const register = async () => {
       type="text"
       v-model="registerForm.firstname"
       :error="errors.firstname"
+      @update:model-value="clearError('firstname')"
     />
-    <BaseInput label="Lastname" id="lastname-input" type="text" v-model="registerForm.lastname" :error="errors.lastname" />
-    <BaseInput label="Email" id="email-input" type="text" v-model="registerForm.email" :error="errors.email"/>
+
+    <BaseInput
+      label="Lastname"
+      id="lastname-input"
+      type="text"
+      v-model="registerForm.lastname"
+      :error="errors.lastname"
+      @update:model-value="clearError('lastname')"
+    />
+    <BaseInput
+      label="Email"
+      id="email-input"
+      type="text"
+      v-model="registerForm.email"
+      :error="errors.email"
+      @update:model-value="clearError('email')"
+    />
+
     <BaseInput
       label="Password"
       id="password-input"
       type="password"
       v-model="registerForm.password"
       :error="errors.password"
+      @update:model-value="clearError('password')"
     />
     <BaseButton type="submit">Sign up</BaseButton>
   </form>

@@ -5,6 +5,7 @@ const props = defineProps<{
   label: string
   id: string
   type: string
+  error?: string
 }>()
 
 const model = defineModel()
@@ -14,7 +15,14 @@ const model = defineModel()
 
     <label class="base-input-label" :for="props.id">
       <span class="base-input-text">{{ props.label }}</span>
-      <input class="base-input-field" :type="props.type" v-model="model" :id="props.id" />
+      <input class="base-input-field"
+        :class="{ 'has-error': error}"
+        :id="props.id"
+        :type="props.type"
+        v-model="model"
+      />
+
+      <span v-if="error" :id="`${id}-error`" class="base-input-error">{{ error }}</span>
     </label>
 
 </template>
@@ -49,5 +57,11 @@ const model = defineModel()
 .base-input-field:focus {
   outline: none;
   border-color: #4f46e5;
+}
+
+.base-input-error {
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+  color: #dc2626;
 }
 </style>

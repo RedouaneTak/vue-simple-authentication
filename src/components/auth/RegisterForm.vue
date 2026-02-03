@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import BaseButton from '../commons/BaseButton.vue'
 import BaseInput from '../commons/BaseInput.vue'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import type { RegisterRequest,RegisterErrors } from '@/models/auth.model'
 import { useAuth } from '@/stores/auth.store'
 import { useRouter } from 'vue-router'
@@ -19,12 +19,41 @@ const registerForm = ref<RegisterRequest>({
 })
 
 const register = async () => {
+
+  if (!validate()) return
+
   try {
     await store.registerUser(registerForm.value)
     router.push('/home')
   } catch (err) {
     console.error(err)
   }
+}
+
+watch(registerForm, () => {
+  errors.value = {}
+}, { deep: true })
+
+const validate = (): boolean => {
+  errors.value = {}
+
+  if (!registerForm.value.firstname) {
+    errors.value.firstname = 'Firstname is required'
+  }
+
+  if (!registerForm.value.lastname) {
+    errors.value.lastname = 'Lastname is required'
+  }
+
+  if (!registerForm.value.email) {
+    errors.value.email = 'Email is required'
+  }
+
+  if (!registerForm.value.password) {
+    errors.value.password = 'Password is required'
+  }
+
+  return Object.keys(errors.value).length === 0
 }
 </script>
 
@@ -36,14 +65,16 @@ const register = async () => {
       id="firstname-input"
       type="text"
       v-model="registerForm.firstname"
+      :error="errors.firstname"
     />
-    <BaseInput label="Lastname" id="lastname-input" type="text" v-model="registerForm.lastname" />
-    <BaseInput label="Email" id="email-input" type="text" v-model="registerForm.email" />
+    <BaseInput label="Lastname" id="lastname-input" type="text" v-model="registerForm.lastname" :error="errors.lastname" />
+    <BaseInput label="Email" id="email-input" type="text" v-model="registerForm.email" :error="errors.email"/>
     <BaseInput
       label="Password"
       id="password-input"
       type="password"
       v-model="registerForm.password"
+      :error="errors.password"
     />
     <BaseButton type="submit">Sign up</BaseButton>
   </form>

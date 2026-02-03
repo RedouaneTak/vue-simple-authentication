@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import BaseButton from '../commons/BaseButton.vue'
 import BaseInput from '../commons/BaseInput.vue'
-import { ref, watch } from 'vue'
+import { ref} from 'vue'
 import type { RegisterRequest,RegisterErrors } from '@/models/auth.model'
+import { validateRegister } from '@/validators/register.validator'
 import { useAuth } from '@/stores/auth.store'
 import { useRouter } from 'vue-router'
 
@@ -20,7 +21,8 @@ const registerForm = ref<RegisterRequest>({
 
 const register = async () => {
 
-  if (!validate()) return
+  errors.value = validateRegister(registerForm.value)
+  if (Object.keys(errors.value).length > 0) return
 
   try {
     await store.registerUser(registerForm.value)
@@ -30,31 +32,8 @@ const register = async () => {
   }
 }
 
-watch(registerForm, () => {
-  errors.value = {}
-}, { deep: true })
 
-const validate = (): boolean => {
-  errors.value = {}
 
-  if (!registerForm.value.firstname) {
-    errors.value.firstname = 'Firstname is required'
-  }
-
-  if (!registerForm.value.lastname) {
-    errors.value.lastname = 'Lastname is required'
-  }
-
-  if (!registerForm.value.email) {
-    errors.value.email = 'Email is required'
-  }
-
-  if (!registerForm.value.password) {
-    errors.value.password = 'Password is required'
-  }
-
-  return Object.keys(errors.value).length === 0
-}
 </script>
 
 <template>

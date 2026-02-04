@@ -21,3 +21,7 @@ export interface User{
 export type RegisterErrors = {
   [K in keyof RegisterRequest]?: string
 }
+
+export type LoginErrors = {
+  [K in keyof LoginRequest]?: string
+}

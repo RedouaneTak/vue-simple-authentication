@@ -19,7 +19,9 @@ const loginForm = ref<LoginRequest>({
   password: '',
 })
 
-
+const clearError = (field: keyof LoginErrors) => {
+  delete errors.value[field]
+}
 
 const login = async () => {
 
@@ -45,6 +47,7 @@ const login = async () => {
       type="text"
       v-model="loginForm.email"
       :error="errors.email"
+      @update:model-value="clearError('email')"
 
     />
     <BaseInput
@@ -53,7 +56,7 @@ const login = async () => {
       type="password"
       v-model="loginForm.password"
       :error="errors.password"
-
+      @update:model-value="clearError('password')"
     />
     <BaseButton type="submit">Log in</BaseButton>
   </form>

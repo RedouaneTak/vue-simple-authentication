@@ -1,9 +1,8 @@
-import type { LoginRequest, LoginErrors } from "@/models/auth.model";
-
+import type { LoginErrors,LoginRequest } from "../models/auth.model"
 export const validateLogin = (form: LoginRequest): LoginErrors => {
   const errors: LoginErrors = {}
 
-    if (!form.email) {
+  if (!form.email) {
     errors.email = 'Email is required'
   }
 
@@ -12,5 +11,4 @@ export const validateLogin = (form: LoginRequest): LoginErrors => {
   }
 
   return errors
-
 }

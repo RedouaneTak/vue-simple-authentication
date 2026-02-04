@@ -2,20 +2,30 @@
 import BaseButton from '../commons/BaseButton.vue'
 import BaseInput from '../commons/BaseInput.vue'
 import { ref } from 'vue'
-import type { LoginRequest } from '@/models/auth.model'
+import type { LoginErrors, LoginRequest } from '@/models/auth.model'
 import { useAuth } from '@/stores/auth.store'
 import { useRouter,useRoute } from 'vue-router'
+import { validateLogin } from '@/validators/login.validator'
+
 
 const store = useAuth()
 const router = useRouter()
 const route = useRoute()
+
+const errors = ref<LoginErrors>({})
 
 const loginForm = ref<LoginRequest>({
   email: '',
   password: '',
 })
 
+
+
 const login = async () => {
+
+  errors.value = validateLogin(loginForm.value)
+  if (Object.keys(errors.value).length > 0) return
+
   try {
     await store.authentication(loginForm.value)
     const redirectTo = typeof route.query.redirect === 'string' ? route.query.redirect : '/home'
@@ -29,8 +39,22 @@ const login = async () => {
 <template>
   <h1>Login</h1>
   <form @submit.prevent="login" class="login-form">
-    <BaseInput label="Email" id="email-input" type="text" v-model="loginForm.email" />
-    <BaseInput label="Password" id="password-input" type="password" v-model="loginForm.password" />
+    <BaseInput
+      label="Email"
+      id="email-input"
+      type="text"
+      v-model="loginForm.email"
+      :error="errors.email"
+
+    />
+    <BaseInput
+      label="Password"
+      id="password-input"
+      type="password"
+      v-model="loginForm.password"
+      :error="errors.password"
+
+    />
     <BaseButton type="submit">Log in</BaseButton>
   </form>
 </template>

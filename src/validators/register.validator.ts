@@ -1,5 +1,7 @@
 import type { RegisterErrors, RegisterRequest } from '@/models/auth.model'
 
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+
 export const validateRegister = (form: RegisterRequest): RegisterErrors => {
   const errors: RegisterErrors = {}
 
@@ -13,6 +15,8 @@ export const validateRegister = (form: RegisterRequest): RegisterErrors => {
 
   if (!form.email) {
     errors.email = 'Email is required'
+  } else if (!emailRegex.test(form.email)) {
+    errors.email = 'Invalid email format'
   }
 
   if (!form.password) {

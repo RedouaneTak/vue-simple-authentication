@@ -1,6 +1,7 @@
 import type { RegisterErrors, RegisterRequest } from '@/models/auth.model'
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+const passwordRegex = /^.{8,}$/
 
 export const validateRegister = (form: RegisterRequest): RegisterErrors => {
   const errors: RegisterErrors = {}
@@ -21,6 +22,8 @@ export const validateRegister = (form: RegisterRequest): RegisterErrors => {
 
   if (!form.password) {
     errors.password = 'Password is required'
+  } else if (!passwordRegex.test(form.password)) {
+    errors.password = 'Password must be at least 8 characters'
   }
 
   return errors
